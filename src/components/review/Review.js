@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import React, { useEffect, useRef, useState } from 'react';
 import { addToAverage } from '../../utils/utils';
 import Comments from './Comments';
@@ -46,7 +47,6 @@ function Review({
     const [totalHasBeenUpdated, setTotalHasBeenUpdated] = useState(false);
     const [isInteractive, setIsInteractive] = useState(true);
     const [rating, setRating] = useState(0);
-    const [selectedRating, setSelectedRating] = useState(0);
     const [timeoutId, setTimeoutId] = useState(null);
 
     const beforeUnloadCallback = useRef(null);
@@ -124,15 +124,13 @@ function Review({
 
         setAverageRating(addToAverage(newRating, averageRating, updatedTotalReviews));
 
-        if (!isKeyboardSelection && newRating > commentThreshold && !displayComments) {
+        setDisplayComments(newRating <= commentThreshold);
+
+        if (!isKeyboardSelection && newRating > commentThreshold) {
             handleClickAboveCommentThreshold(newRating, updatedTotalReviews);
             return;
         }
 
-        // No star has been selected yet
-        if (selectedRating === 0) setDisplayComments(newRating <= commentThreshold);
-
-        setSelectedRating(newRating);
         setRating(newRating);
 
         if (isKeyboardSelection && newRating > commentThreshold && !displayComments) {
