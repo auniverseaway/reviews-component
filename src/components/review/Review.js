@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import React, { useEffect, useRef, useState } from 'react';
 import { addToAverage } from '../../utils/utils';
 import Comments from './Comments';
