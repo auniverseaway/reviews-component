@@ -22,7 +22,7 @@ const HelixReview = ({
     strings,
     tooltipDelay = 300,
     visitorId,
-    clearStarsByDefault
+    setInitialValueToAverage = true
 }) => {
     const [rating, setRating] = useState();
     const [initialRating, setInitialRating] = useState();
@@ -68,8 +68,7 @@ const HelixReview = ({
                             if (total > localDataTotalReviews) setTotalReviews(total);
                             setDisplayRatingSummary(true);
                             setDisplayReviewComp(true);
-                            if (!hasLocalData && !clearStarsByDefault) setInitialRating(Math.round(average));
-                            if (!hasLocalData && clearStarsByDefault) setInitialRating(0);
+                            if (!hasLocalData) setInitialRating(setInitialValueToAverage ? Math.round(average) : 0);
 
                             if (productJson) {
                                 setJsonLdProductInfo(productJson, average, total);
