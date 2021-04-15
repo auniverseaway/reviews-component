@@ -46,6 +46,7 @@ function Review({
     const [totalHasBeenUpdated, setTotalHasBeenUpdated] = useState(false);
     const [isInteractive, setIsInteractive] = useState(true);
     const [rating, setRating] = useState(0);
+    const [selectedRating, setSelectedRating] = useState(0);
     const [timeoutId, setTimeoutId] = useState(null);
 
     const beforeUnloadCallback = useRef(null);
@@ -123,13 +124,15 @@ function Review({
 
         setAverageRating(addToAverage(newRating, averageRating, updatedTotalReviews));
 
-        setDisplayComments(newRating <= commentThreshold);
-
-        if (!isKeyboardSelection && newRating > commentThreshold) {
+        if (!isKeyboardSelection && newRating > commentThreshold && !displayComments) {
             handleClickAboveCommentThreshold(newRating, updatedTotalReviews);
             return;
         }
 
+        // No star has been selected yet
+        if (selectedRating === 0) setDisplayComments(newRating <= commentThreshold);
+
+        setSelectedRating(newRating);
         setRating(newRating);
 
         if (isKeyboardSelection && newRating > commentThreshold && !displayComments) {
